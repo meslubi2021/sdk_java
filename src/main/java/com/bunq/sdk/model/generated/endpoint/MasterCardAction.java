@@ -281,6 +281,13 @@ public class MasterCardAction extends BunqModel {
   private List<RequestInquiryReference> requestReferenceSplitTheBill;
 
   /**
+   * The cardTokenization event awaiting acceptance by the user
+   */
+  @Expose
+  @SerializedName("card_tokenization_event")
+  private Event cardTokenizationEvent;
+
+  /**
    * A reference to the Refunds if they exist.
    */
   @Expose
@@ -316,18 +323,25 @@ public class MasterCardAction extends BunqModel {
   private CashbackPayoutItem cashbackPayoutItem;
 
   /**
-   * The report for this transaction
+   * The point mutation for this action or null
    */
   @Expose
-  @SerializedName("mastercard_action_report")
-  private MasterCardActionReport mastercardActionReport;
+  @SerializedName("point_mutation")
+  private PointMutation pointMutation;
 
   /**
-   * The blacklist enabled for the merchant of this transaction
+   * DEPRECATED. The blacklist enabled for the merchant of this transaction
    */
   @Expose
   @SerializedName("blacklist")
-  private UserBlacklistMasterCardMerchant blacklist;
+  private UserBlocklistMasterCardMerchant blacklist;
+
+  /**
+   * The blocklist enabled for the merchant of this transaction
+   */
+  @Expose
+  @SerializedName("blocklist")
+  private UserBlocklistMasterCardMerchant blocklist;
 
   /**
    * The status of the additional authentication performed (3ds) by the user for this transaction.
@@ -344,11 +358,25 @@ public class MasterCardAction extends BunqModel {
   private String pinStatus;
 
   /**
+   * The report for this transaction
+   */
+  @Expose
+  @SerializedName("mastercard_action_report")
+  private MasterCardActionReport mastercardActionReport;
+
+  /**
    * The MCC provided.
    */
   @Expose
   @SerializedName("merchant_category_code")
   private String merchantCategoryCode;
+
+  /**
+   * The receipt the company employee has to provide for this transaction.
+   */
+  @Expose
+  @SerializedName("company_employee_card_receipt")
+  private CompanyEmployeeCardReceipt companyEmployeeCardReceipt;
 
   /**
    */
@@ -777,6 +805,17 @@ public class MasterCardAction extends BunqModel {
   }
 
   /**
+   * The cardTokenization event awaiting acceptance by the user
+   */
+  public Event getCardTokenizationEvent() {
+    return this.cardTokenizationEvent;
+  }
+
+  public void setCardTokenizationEvent(Event cardTokenizationEvent) {
+    this.cardTokenizationEvent = cardTokenizationEvent;
+  }
+
+  /**
    * A reference to the Refunds if they exist.
    */
   public List<MasterCardActionRefund> getAllMastercardActionRefund() {
@@ -832,25 +871,36 @@ public class MasterCardAction extends BunqModel {
   }
 
   /**
-   * The report for this transaction
+   * The point mutation for this action or null
    */
-  public MasterCardActionReport getMastercardActionReport() {
-    return this.mastercardActionReport;
+  public PointMutation getPointMutation() {
+    return this.pointMutation;
   }
 
-  public void setMastercardActionReport(MasterCardActionReport mastercardActionReport) {
-    this.mastercardActionReport = mastercardActionReport;
+  public void setPointMutation(PointMutation pointMutation) {
+    this.pointMutation = pointMutation;
   }
 
   /**
-   * The blacklist enabled for the merchant of this transaction
+   * DEPRECATED. The blacklist enabled for the merchant of this transaction
    */
-  public UserBlacklistMasterCardMerchant getBlacklist() {
+  public UserBlocklistMasterCardMerchant getBlacklist() {
     return this.blacklist;
   }
 
-  public void setBlacklist(UserBlacklistMasterCardMerchant blacklist) {
+  public void setBlacklist(UserBlocklistMasterCardMerchant blacklist) {
     this.blacklist = blacklist;
+  }
+
+  /**
+   * The blocklist enabled for the merchant of this transaction
+   */
+  public UserBlocklistMasterCardMerchant getBlocklist() {
+    return this.blocklist;
+  }
+
+  public void setBlocklist(UserBlocklistMasterCardMerchant blocklist) {
+    this.blocklist = blocklist;
   }
 
   /**
@@ -876,6 +926,17 @@ public class MasterCardAction extends BunqModel {
   }
 
   /**
+   * The report for this transaction
+   */
+  public MasterCardActionReport getMastercardActionReport() {
+    return this.mastercardActionReport;
+  }
+
+  public void setMastercardActionReport(MasterCardActionReport mastercardActionReport) {
+    this.mastercardActionReport = mastercardActionReport;
+  }
+
+  /**
    * The MCC provided.
    */
   public String getMerchantCategoryCode() {
@@ -884,6 +945,17 @@ public class MasterCardAction extends BunqModel {
 
   public void setMerchantCategoryCode(String merchantCategoryCode) {
     this.merchantCategoryCode = merchantCategoryCode;
+  }
+
+  /**
+   * The receipt the company employee has to provide for this transaction.
+   */
+  public CompanyEmployeeCardReceipt getCompanyEmployeeCardReceipt() {
+    return this.companyEmployeeCardReceipt;
+  }
+
+  public void setCompanyEmployeeCardReceipt(CompanyEmployeeCardReceipt companyEmployeeCardReceipt) {
+    this.companyEmployeeCardReceipt = companyEmployeeCardReceipt;
   }
 
   /**
@@ -1025,6 +1097,10 @@ public class MasterCardAction extends BunqModel {
       return false;
     }
 
+    if (this.cardTokenizationEvent != null) {
+      return false;
+    }
+
     if (this.allMastercardActionRefund != null) {
       return false;
     }
@@ -1045,11 +1121,15 @@ public class MasterCardAction extends BunqModel {
       return false;
     }
 
-    if (this.mastercardActionReport != null) {
+    if (this.pointMutation != null) {
       return false;
     }
 
     if (this.blacklist != null) {
+      return false;
+    }
+
+    if (this.blocklist != null) {
       return false;
     }
 
@@ -1061,7 +1141,15 @@ public class MasterCardAction extends BunqModel {
       return false;
     }
 
+    if (this.mastercardActionReport != null) {
+      return false;
+    }
+
     if (this.merchantCategoryCode != null) {
+      return false;
+    }
+
+    if (this.companyEmployeeCardReceipt != null) {
       return false;
     }
 

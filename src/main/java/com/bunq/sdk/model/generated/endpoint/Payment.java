@@ -6,11 +6,11 @@ import com.bunq.sdk.http.BunqResponse;
 import com.bunq.sdk.http.BunqResponseRaw;
 import com.bunq.sdk.model.core.BunqModel;
 import com.bunq.sdk.model.core.MonetaryAccountReference;
-import com.bunq.sdk.model.generated.object.Address;
 import com.bunq.sdk.model.generated.object.Amount;
 import com.bunq.sdk.model.generated.object.AttachmentMonetaryAccountPayment;
 import com.bunq.sdk.model.generated.object.Geolocation;
 import com.bunq.sdk.model.generated.object.LabelMonetaryAccount;
+import com.bunq.sdk.model.generated.object.PaymentArrivalExpected;
 import com.bunq.sdk.model.generated.object.Pointer;
 import com.bunq.sdk.model.generated.object.RequestInquiryReference;
 import com.google.gson.annotations.Expose;
@@ -132,6 +132,13 @@ public class Payment extends BunqModel {
   private String subType;
 
   /**
+   * Information about the expected arrival of the payment.
+   */
+  @Expose
+  @SerializedName("payment_arrival_expected")
+  private PaymentArrivalExpected paymentArrivalExpected;
+
+  /**
    * The status of the bunq.to payment.
    */
   @Expose
@@ -236,6 +243,13 @@ public class Payment extends BunqModel {
   @Expose
   @SerializedName("payment_auto_allocate_instance")
   private PaymentAutoAllocateInstance paymentAutoAllocateInstance;
+
+  /**
+   * A reference to the PaymentSuspendedOutgoing if it exists.
+   */
+  @Expose
+  @SerializedName("payment_suspended_outgoing")
+  private PaymentSuspendedOutgoing paymentSuspendedOutgoing;
 
   /**
    * The Amount to transfer with the Payment. Must be bigger than 0 and smaller than the
@@ -549,6 +563,17 @@ requestMap.put(FIELD_ALLOW_BUNQTO, allowBunqto);
   }
 
   /**
+   * Information about the expected arrival of the payment.
+   */
+  public PaymentArrivalExpected getPaymentArrivalExpected() {
+    return this.paymentArrivalExpected;
+  }
+
+  public void setPaymentArrivalExpected(PaymentArrivalExpected paymentArrivalExpected) {
+    this.paymentArrivalExpected = paymentArrivalExpected;
+  }
+
+  /**
    * The status of the bunq.to payment.
    */
   public String getBunqtoStatus() {
@@ -715,6 +740,17 @@ requestMap.put(FIELD_ALLOW_BUNQTO, allowBunqto);
   }
 
   /**
+   * A reference to the PaymentSuspendedOutgoing if it exists.
+   */
+  public PaymentSuspendedOutgoing getPaymentSuspendedOutgoing() {
+    return this.paymentSuspendedOutgoing;
+  }
+
+  public void setPaymentSuspendedOutgoing(PaymentSuspendedOutgoing paymentSuspendedOutgoing) {
+    this.paymentSuspendedOutgoing = paymentSuspendedOutgoing;
+  }
+
+  /**
    */
   public boolean isAllFieldNull() {
     if (this.id != null) {
@@ -754,6 +790,10 @@ requestMap.put(FIELD_ALLOW_BUNQTO, allowBunqto);
     }
 
     if (this.subType != null) {
+      return false;
+    }
+
+    if (this.paymentArrivalExpected != null) {
       return false;
     }
 
@@ -814,6 +854,10 @@ requestMap.put(FIELD_ALLOW_BUNQTO, allowBunqto);
     }
 
     if (this.paymentAutoAllocateInstance != null) {
+      return false;
+    }
+
+    if (this.paymentSuspendedOutgoing != null) {
       return false;
     }
 

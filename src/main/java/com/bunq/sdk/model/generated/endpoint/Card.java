@@ -53,8 +53,8 @@ public class Card extends BunqModel {
   /**
    * Object type.
    */
-  protected static final String OBJECT_TYPE_PUT = "CardDebit";
-  protected static final String OBJECT_TYPE_GET = "CardDebit";
+  protected static final String OBJECT_TYPE_PUT = "Card";
+  protected static final String OBJECT_TYPE_GET = "Card";
 
   /**
    * The id of the card.
@@ -85,6 +85,27 @@ public class Card extends BunqModel {
   private String publicUuid;
 
   /**
+   * DEPRECATED. ID of the user who is owner of the card.
+   */
+  @Expose
+  @SerializedName("user_id")
+  private Integer userId;
+
+  /**
+   * ID of the user who is owner of the card.
+   */
+  @Expose
+  @SerializedName("user_owner_id")
+  private Integer userOwnerId;
+
+  /**
+   * ID of the user who is holder of the card.
+   */
+  @Expose
+  @SerializedName("user_holder_id")
+  private Integer userHolderId;
+
+  /**
    * The type of the card. Can be MAESTRO, MASTERCARD.
    */
   @Expose
@@ -99,18 +120,32 @@ public class Card extends BunqModel {
   private String subType;
 
   /**
+   * The product type of the card.
+   */
+  @Expose
+  @SerializedName("product_type")
+  private String productType;
+
+  /**
+   * The product sub-type of the card.
+   */
+  @Expose
+  @SerializedName("product_sub_type")
+  private String productSubType;
+
+  /**
+   * The first line of text on the card
+   */
+  @Expose
+  @SerializedName("first_line")
+  private String firstLine;
+
+  /**
    * The second line of text on the card
    */
   @Expose
   @SerializedName("second_line")
   private String secondLine;
-
-  /**
-   * ID of the user who is owner of the card.
-   */
-  @Expose
-  @SerializedName("user_id")
-  private Integer userId;
 
   /**
    * The status to set for the card. Can be ACTIVE, DEACTIVATED, LOST, STOLEN, CANCELLED, EXPIRED
@@ -247,8 +282,43 @@ public class Card extends BunqModel {
    * Whether this card is eligible for a free replacement.
    */
   @Expose
-  @SerializedName("is_eligible_for_free_replacement")
-  private Boolean isEligibleForFreeReplacement;
+  @SerializedName("is_card_eligible_for_free_replacement")
+  private Boolean isCardEligibleForFreeReplacement;
+
+  /**
+   * The card replacement for this card.
+   */
+  @Expose
+  @SerializedName("card_replacement")
+  private CardReplacement cardReplacement;
+
+  /**
+   * The generated CVC2 code for this card.
+   */
+  @Expose
+  @SerializedName("card_generated_cvc2")
+  private CardGeneratedCvc2 cardGeneratedCvc2;
+
+  /**
+   * Whether this card is a limited edition metal card.
+   */
+  @Expose
+  @SerializedName("is_limited_edition")
+  private Boolean isLimitedEdition;
+
+  /**
+   * The date for the member since field on the black metal card.
+   */
+  @Expose
+  @SerializedName("card_metal_member_since_date")
+  private String cardMetalMemberSinceDate;
+
+  /**
+   * Details of this card belonging to a company, if applicable.
+   */
+  @Expose
+  @SerializedName("company_employee_card")
+  private CompanyEmployeeCard companyEmployeeCard;
 
   /**
    * The plaintext pin code. Requests require encryption to be enabled.
@@ -613,6 +683,39 @@ requestMap.put(FIELD_CANCELLATION_REASON, cancellationReason);
   }
 
   /**
+   * DEPRECATED. ID of the user who is owner of the card.
+   */
+  public Integer getUserId() {
+    return this.userId;
+  }
+
+  public void setUserId(Integer userId) {
+    this.userId = userId;
+  }
+
+  /**
+   * ID of the user who is owner of the card.
+   */
+  public Integer getUserOwnerId() {
+    return this.userOwnerId;
+  }
+
+  public void setUserOwnerId(Integer userOwnerId) {
+    this.userOwnerId = userOwnerId;
+  }
+
+  /**
+   * ID of the user who is holder of the card.
+   */
+  public Integer getUserHolderId() {
+    return this.userHolderId;
+  }
+
+  public void setUserHolderId(Integer userHolderId) {
+    this.userHolderId = userHolderId;
+  }
+
+  /**
    * The type of the card. Can be MAESTRO, MASTERCARD.
    */
   public String getType() {
@@ -635,6 +738,39 @@ requestMap.put(FIELD_CANCELLATION_REASON, cancellationReason);
   }
 
   /**
+   * The product type of the card.
+   */
+  public String getProductType() {
+    return this.productType;
+  }
+
+  public void setProductType(String productType) {
+    this.productType = productType;
+  }
+
+  /**
+   * The product sub-type of the card.
+   */
+  public String getProductSubType() {
+    return this.productSubType;
+  }
+
+  public void setProductSubType(String productSubType) {
+    this.productSubType = productSubType;
+  }
+
+  /**
+   * The first line of text on the card
+   */
+  public String getFirstLine() {
+    return this.firstLine;
+  }
+
+  public void setFirstLine(String firstLine) {
+    this.firstLine = firstLine;
+  }
+
+  /**
    * The second line of text on the card
    */
   public String getSecondLine() {
@@ -643,17 +779,6 @@ requestMap.put(FIELD_CANCELLATION_REASON, cancellationReason);
 
   public void setSecondLine(String secondLine) {
     this.secondLine = secondLine;
-  }
-
-  /**
-   * ID of the user who is owner of the card.
-   */
-  public Integer getUserId() {
-    return this.userId;
-  }
-
-  public void setUserId(Integer userId) {
-    this.userId = userId;
   }
 
   /**
@@ -862,12 +987,67 @@ requestMap.put(FIELD_CANCELLATION_REASON, cancellationReason);
   /**
    * Whether this card is eligible for a free replacement.
    */
-  public Boolean getIsEligibleForFreeReplacement() {
-    return this.isEligibleForFreeReplacement;
+  public Boolean getIsCardEligibleForFreeReplacement() {
+    return this.isCardEligibleForFreeReplacement;
   }
 
-  public void setIsEligibleForFreeReplacement(Boolean isEligibleForFreeReplacement) {
-    this.isEligibleForFreeReplacement = isEligibleForFreeReplacement;
+  public void setIsCardEligibleForFreeReplacement(Boolean isCardEligibleForFreeReplacement) {
+    this.isCardEligibleForFreeReplacement = isCardEligibleForFreeReplacement;
+  }
+
+  /**
+   * The card replacement for this card.
+   */
+  public CardReplacement getCardReplacement() {
+    return this.cardReplacement;
+  }
+
+  public void setCardReplacement(CardReplacement cardReplacement) {
+    this.cardReplacement = cardReplacement;
+  }
+
+  /**
+   * The generated CVC2 code for this card.
+   */
+  public CardGeneratedCvc2 getCardGeneratedCvc2() {
+    return this.cardGeneratedCvc2;
+  }
+
+  public void setCardGeneratedCvc2(CardGeneratedCvc2 cardGeneratedCvc2) {
+    this.cardGeneratedCvc2 = cardGeneratedCvc2;
+  }
+
+  /**
+   * Whether this card is a limited edition metal card.
+   */
+  public Boolean getIsLimitedEdition() {
+    return this.isLimitedEdition;
+  }
+
+  public void setIsLimitedEdition(Boolean isLimitedEdition) {
+    this.isLimitedEdition = isLimitedEdition;
+  }
+
+  /**
+   * The date for the member since field on the black metal card.
+   */
+  public String getCardMetalMemberSinceDate() {
+    return this.cardMetalMemberSinceDate;
+  }
+
+  public void setCardMetalMemberSinceDate(String cardMetalMemberSinceDate) {
+    this.cardMetalMemberSinceDate = cardMetalMemberSinceDate;
+  }
+
+  /**
+   * Details of this card belonging to a company, if applicable.
+   */
+  public CompanyEmployeeCard getCompanyEmployeeCard() {
+    return this.companyEmployeeCard;
+  }
+
+  public void setCompanyEmployeeCard(CompanyEmployeeCard companyEmployeeCard) {
+    this.companyEmployeeCard = companyEmployeeCard;
   }
 
   /**
@@ -889,6 +1069,18 @@ requestMap.put(FIELD_CANCELLATION_REASON, cancellationReason);
       return false;
     }
 
+    if (this.userId != null) {
+      return false;
+    }
+
+    if (this.userOwnerId != null) {
+      return false;
+    }
+
+    if (this.userHolderId != null) {
+      return false;
+    }
+
     if (this.type != null) {
       return false;
     }
@@ -897,11 +1089,19 @@ requestMap.put(FIELD_CANCELLATION_REASON, cancellationReason);
       return false;
     }
 
-    if (this.secondLine != null) {
+    if (this.productType != null) {
       return false;
     }
 
-    if (this.userId != null) {
+    if (this.productSubType != null) {
+      return false;
+    }
+
+    if (this.firstLine != null) {
+      return false;
+    }
+
+    if (this.secondLine != null) {
       return false;
     }
 
@@ -977,7 +1177,27 @@ requestMap.put(FIELD_CANCELLATION_REASON, cancellationReason);
       return false;
     }
 
-    if (this.isEligibleForFreeReplacement != null) {
+    if (this.isCardEligibleForFreeReplacement != null) {
+      return false;
+    }
+
+    if (this.cardReplacement != null) {
+      return false;
+    }
+
+    if (this.cardGeneratedCvc2 != null) {
+      return false;
+    }
+
+    if (this.isLimitedEdition != null) {
+      return false;
+    }
+
+    if (this.cardMetalMemberSinceDate != null) {
+      return false;
+    }
+
+    if (this.companyEmployeeCard != null) {
       return false;
     }
 

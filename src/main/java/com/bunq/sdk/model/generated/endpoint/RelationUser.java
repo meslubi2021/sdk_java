@@ -74,6 +74,20 @@ public class RelationUser extends BunqModel {
   private String counterUserStatus;
 
   /**
+   * Tap to Pay settings for the company employee.
+   */
+  @Expose
+  @SerializedName("company_employee_setting_adyen_card_transaction")
+  private CompanyEmployeeSettingAdyenCardTransaction companyEmployeeSettingAdyenCardTransaction;
+
+  /**
+   * Cards accessible by the company employee
+   */
+  @Expose
+  @SerializedName("all_company_employee_card")
+  private List<CompanyEmployeeCard> allCompanyEmployeeCard;
+
+  /**
    * The user's ID.
    */
   public String getUserId() {
@@ -162,6 +176,28 @@ public class RelationUser extends BunqModel {
   }
 
   /**
+   * Tap to Pay settings for the company employee.
+   */
+  public CompanyEmployeeSettingAdyenCardTransaction getCompanyEmployeeSettingAdyenCardTransaction() {
+    return this.companyEmployeeSettingAdyenCardTransaction;
+  }
+
+  public void setCompanyEmployeeSettingAdyenCardTransaction(CompanyEmployeeSettingAdyenCardTransaction companyEmployeeSettingAdyenCardTransaction) {
+    this.companyEmployeeSettingAdyenCardTransaction = companyEmployeeSettingAdyenCardTransaction;
+  }
+
+  /**
+   * Cards accessible by the company employee
+   */
+  public List<CompanyEmployeeCard> getAllCompanyEmployeeCard() {
+    return this.allCompanyEmployeeCard;
+  }
+
+  public void setAllCompanyEmployeeCard(List<CompanyEmployeeCard> allCompanyEmployeeCard) {
+    this.allCompanyEmployeeCard = allCompanyEmployeeCard;
+  }
+
+  /**
    */
   public boolean isAllFieldNull() {
     if (this.userId != null) {
@@ -193,6 +229,14 @@ public class RelationUser extends BunqModel {
     }
 
     if (this.counterUserStatus != null) {
+      return false;
+    }
+
+    if (this.companyEmployeeSettingAdyenCardTransaction != null) {
+      return false;
+    }
+
+    if (this.allCompanyEmployeeCard != null) {
       return false;
     }
 

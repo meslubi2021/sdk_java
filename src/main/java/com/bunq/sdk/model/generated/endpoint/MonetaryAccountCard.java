@@ -77,11 +77,25 @@ public class MonetaryAccountCard extends BunqModel {
   private Amount dailyLimit;
 
   /**
+   * The maximum Amount the MonetaryAccountCard can be 'in the red'.
+   */
+  @Expose
+  @SerializedName("overdraft_limit")
+  private Amount overdraftLimit;
+
+  /**
    * The current available balance Amount of the MonetaryAccountCard.
    */
   @Expose
   @SerializedName("balance")
   private Amount balance;
+
+  /**
+   * The current real balance Amount of the MonetaryAccountCard.
+   */
+  @Expose
+  @SerializedName("balance_real")
+  private Amount balanceReal;
 
   /**
    * The Aliases for the MonetaryAccountCard.
@@ -247,6 +261,17 @@ public class MonetaryAccountCard extends BunqModel {
   }
 
   /**
+   * The maximum Amount the MonetaryAccountCard can be 'in the red'.
+   */
+  public Amount getOverdraftLimit() {
+    return this.overdraftLimit;
+  }
+
+  public void setOverdraftLimit(Amount overdraftLimit) {
+    this.overdraftLimit = overdraftLimit;
+  }
+
+  /**
    * The current available balance Amount of the MonetaryAccountCard.
    */
   public Amount getBalance() {
@@ -255,6 +280,17 @@ public class MonetaryAccountCard extends BunqModel {
 
   public void setBalance(Amount balance) {
     this.balance = balance;
+  }
+
+  /**
+   * The current real balance Amount of the MonetaryAccountCard.
+   */
+  public Amount getBalanceReal() {
+    return this.balanceReal;
+  }
+
+  public void setBalanceReal(Amount balanceReal) {
+    this.balanceReal = balanceReal;
   }
 
   /**
@@ -339,7 +375,15 @@ public class MonetaryAccountCard extends BunqModel {
       return false;
     }
 
+    if (this.overdraftLimit != null) {
+      return false;
+    }
+
     if (this.balance != null) {
+      return false;
+    }
+
+    if (this.balanceReal != null) {
       return false;
     }
 
